@@ -1,0 +1,25 @@
+sudo -u postgres psql
+psql -h '127.0.0.1' -U jhon -d postgres
+python manage.py shell
+from app1.models import Categoria
+qs = Categoria.objects.all()
+qs
+str(qs.query) #Ver Query a la DB
+qs=Categoria.objects.filter(descripcion__startswith='p') | Categoria.objects.filter(descripcion__startswith='b')
+
+from django.db.models import Q
+
+Consultas OR
+qs=Categoria.objects.filter(Q(descripcion__startswith='p') | Q(descripcion__startswith='b'))
+
+Consultas AND
+*qs=Categoria.objects.filter(descripcion__startswith='p',activo=True)
+*qs=Categoria.objects.filter(descripcion__startswith='p') & Categoria.objects.filter(activo=True)
+
+Consultas NOT
+qs=Categoria.objects.exclude(id='2')
+qs=Categoria.objects.filter(~Q(id='2'))
+
+consultas UNION
+q1.union(q2)
+Categoria.objects.all().values_list("id","description").union(SubCategoria.objects.all().values_list("id","description"))
