@@ -23,3 +23,12 @@ qs=Categoria.objects.filter(~Q(id='2'))
 consultas UNION
 q1.union(q2)
 Categoria.objects.all().values_list("id","description").union(SubCategoria.objects.all().values_list("id","description"))
+
+SUBQUERY
+from django.db.models import Subquery
+Categoria.objects.filter(id__in=Subquery(scat.values('categoria_id')))
+Categoria.objects.filter(id__in=Subquery(scat.values('categoria_id'))).values('id','descripcion')
+
+JOIN
+qs=SubCategoria.objects.selected_related('categoria')
+qs=SubCategoria.objects.filter(categoria__descripcion='Python')
