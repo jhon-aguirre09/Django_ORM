@@ -32,3 +32,20 @@ Categoria.objects.filter(id__in=Subquery(scat.values('categoria_id'))).values('i
 JOIN
 qs=SubCategoria.objects.selected_related('categoria')
 qs=SubCategoria.objects.filter(categoria__descripcion='Python')
+
+AGRUPAR REGISTROS
+from django.db.models import Avg,Max,Min,Sum,Count
+Categoria.objects.all().aggregate(Avg("id"))
+Categoria.objects.all().count()
+
+Categoria.objects.create(descripcion="L y L")
+
+Categoria.objects.bulk_create([Categoria(descripcion="Redes",Categoria(descripcion="Matematicas"),Categoria(descripcion="Fisica"))])
+
+cat = Categoria.objects.first()
+cat.pk = None
+cat.save()
+
+Categoria.objects.filter(descripcion='Fisica').update(descripcion='Fisicia')
+
+Unico.objects.all().delete()
