@@ -49,3 +49,19 @@ cat.save()
 Categoria.objects.filter(descripcion='Fisica').update(descripcion='Fisicia')
 
 Unico.objects.all().delete()
+
+ORDENAR QUERY'S
+Categoria.objects.all().order_by('id')
+Categoria.objects.all().order_by('-id')
+
+Categoria.objects.all().order_by('descripcion').values_list('descripcion', flat=True)
+from django.db.models import Lower
+Categoria.objects.all().order_by(Lower('descripcion')).values_list('descripcion', flat=True)
+Categoria.objects.annotate(Lower(lowdest='descripcion')).order_by('descripcion').values_list('descripcion', flat=True)
+
+MODELO RELACIONADO POR LA LLAVE EXTRANJERA
+SubCategoria.objects.all().order_by('categoria__descripcion').values_list('id','descripcion','categoria_id')
+
+CAMPOS ANNOTATE
+from django.db.models import count
+Categoria.objects.annotate(conteo=Count('SubCategoria'))
