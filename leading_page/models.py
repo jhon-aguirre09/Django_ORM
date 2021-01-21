@@ -69,3 +69,37 @@ def categoria_saved(sender, **kwargs):
 @receiver(post_delete, sender=Categoria)
 def categoria_deleted(sender, **kwargs):
     print("Categoria Eliminada")
+
+from django.contrib.auth.models import User
+
+class UserParent(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key = True,
+    )
+    father_name = models.Charfield(max_length=50)
+    mother_name = models.CharField(max_length=50)
+
+class Empleado(models.Model):
+    supervisor = models.ForeignKey('self', on_delete=models.CASCADE)
+
+class Employee(models.Model):
+    supervisor = models.ForeignKey('app1.Employee', on_delete=models.CASCADE)
+
+class ViewCat(models.Model):
+    descripcion = models.Charfield(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = "categoria_view"
+
+class NombreColumna(models.Model):
+    a = models.CharField(max_length = 10, db_column='columna1')
+    columna2 = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.a
+
+    class Meta:
+        db_table = 'ORM Django'

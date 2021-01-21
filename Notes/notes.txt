@@ -65,3 +65,15 @@ SubCategoria.objects.all().order_by('categoria__descripcion').values_list('id','
 CAMPOS ANNOTATE
 from django.db.models import count
 Categoria.objects.annotate(conteo=Count('SubCategoria'))
+
+CONVERTIR BASE DE DATOS EXISTENTE
+manage.py inspectdb
+manage.py inspectdb > modelos.py
+
+VISTA A PARTIR DE MODELO
+manage.py dbshell
+\dt
+select * from app1_categoria;
+create view categoria_view as select id,descripcion from app1_categoria;
+select * from categoria_view;
+
